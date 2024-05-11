@@ -8,13 +8,16 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
     
+    
 with app.app_context():  # Set up the application context
     db.create_all()
+
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -29,6 +32,7 @@ def register():
 
     return jsonify(message='User registered successfully')
 
+
 @app.route('/login', methods=['POST'])
 def login():
     username = request.json.get('username')
@@ -40,6 +44,7 @@ def login():
         return jsonify(message='Login successful')
     else:
         return jsonify(message='Invalid username or password')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
